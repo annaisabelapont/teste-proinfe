@@ -1,3 +1,4 @@
+import { FieldError, UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import "./form.css";
 
 export default function Input({
@@ -5,24 +6,29 @@ export default function Input({
   type,
   placeholder,
   error,
+  className,
+  register,
 }: {
   label: string;
   type: "text" | "number" | "date";
   placeholder: string;
-  error: any;
+  error: FieldError | undefined;
+  className?: string;
+  register: UseFormRegisterReturn<any>;
 }) {
   return (
     <>
-      <label>
+      <label className={className}>
         {label}
         <input
+          {...register}
           className={error ? "border-red-500" : "border-gray-200 "}
           type={type}
           placeholder={placeholder}
         />
+      {error && <span className="text-red-500 text-sm font-normal mt-1">{error.message}</span>}
       </label>
 
-      {error && <span className="text-red-500 text-sm">{error.message}</span>}
     </>
   );
 }
