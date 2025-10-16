@@ -8,6 +8,9 @@ import Select from "./FormSelect";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Save from "../icons/Save";
+import CancelIcon from "../icons/Cancel";
+import Link from "next/link";
 
 export default function Form({
   action,
@@ -23,17 +26,19 @@ export default function Form({
     sexo: z.string().nonempty("Sexo é obrigatório!"),
     nacionalidade: z.string().nonempty("Nacionalidade é obrigatória!"),
     // endereco: {
-    // cep: z.string().nonempty("CEP é obrigatório!"),
-    // logradouro: z.string().nonempty("Logradouro é obrigatório!"),
-    // numero: z.number().min(0),
-    // bairro: z.string().nonempty("Bairro é obrigatório!"),
-    // cidade: z.string().nonempty("Cidade é obrigatória!"),
-    // estado: z.string().nonempty("Estado é obrigatório!"),
+    cep: z.string().nonempty("CEP é obrigatório!"),
+    logradouro: z.string().nonempty("Logradouro é obrigatório!"),
+    numero: z.number().min(0),
+    bairro: z.string().nonempty("Bairro é obrigatório!"),
+    cidade: z.string().nonempty("Cidade é obrigatória!"),
+    estado: z.string().nonempty("Estado é obrigatório!"),
     // // },
     // // contatos: [
     // //   {
+    contato: z.string(),
+    email: z.email(),
     // contato: z.array(z.string()),
-    // email: z.array(z.string()),
+    // email: z.array(z.email()),
     //   },
     // ],
   });
@@ -127,15 +132,98 @@ export default function Form({
               </span>
             )}
           </fieldset>
-
-          <br />
-          <br />
-          <br />
-          <button type="submit">submeter bora galera borab rbao</button>
         </div>
 
         <FormSectionName title="Endereço" />
+        <div className="grid grid-cols-4 gap-5 py-10">
+          <Input
+            register={register("cep")}
+            placeholder="Ex: 00000-000"
+            label="CEP *"
+            type="text"
+            error={errors.cep}
+          />
+          <Input
+            className="col-span-3"
+            register={register("logradouro")}
+            placeholder="Ex: Avenida ou Rua Fulano de Tal"
+            label="Logradouro *"
+            type="text"
+            error={errors.logradouro}
+          />
+          <Input
+            register={register("bairro")}
+            placeholder="Ex: Centro"
+            label="Bairro *"
+            type="text"
+            error={errors.bairro}
+          />
+          <Input
+            register={register("numero")}
+            placeholder="Ex: 1154"
+            label="Número *"
+            type="number"
+            error={errors.numero}
+          />
+          <Input
+            register={register("cidade")}
+            placeholder="Ex: Ji-Paraná"
+            label="Município *"
+            type="text"
+            error={errors.cidade}
+          />
+
+          <Select
+            placeholder="Selecione"
+            label="UF *"
+            options={[{ name: "Masculino", value: "Masculino" }]}
+            register={register("estado")}
+            error={errors.estado}
+          />
+        </div>
+
         <FormSectionName title="Contato" />
+
+        <div className="grid grid-cols-4 gap-5 py-10">
+          <Input
+            className="col-span-4"
+            register={register("contato")}
+            placeholder="(00) 00000-0000"
+            label="Contato *"
+            type="text"
+            error={errors.contato}
+          />
+          <Input
+            className="col-span-4"
+            register={register("email")}
+            placeholder="Ex: seuemail@provedor.com"
+            label="E-mail *"
+            type="text"
+            error={errors.contato}
+          />
+        </div>
+
+        <br />
+        <br />
+        <br />
+
+        <div className="flex gap-5 justify-end">
+          <Link
+          href="./"
+            className="flex p-2.5 border-2 border-blue gap-2 text-blue rounded-md shadow-lg bg-white"
+          >
+            <CancelIcon />
+            Cancelar
+          </Link>
+
+          <button
+            type="submit"
+            className="flex p-2.5 border-2 border-blue gap-2 rounded-md shadow-lg text-white bg-blue"
+          >
+            <Save />
+            Salvar
+          </button>
+        </div>
       </form>
     </div>
   );
