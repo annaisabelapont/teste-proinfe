@@ -281,7 +281,7 @@ export default function Form({
 
         <div className="flex gap-5 justify-end">
           <Link
-            href="./"
+            href="/alunos"
             className="flex p-2.5 border-2 border-blue gap-2 text-blue rounded-md shadow-lg bg-white"
           >
             <CancelIcon />
