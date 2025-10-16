@@ -61,7 +61,7 @@ export default async function AlunosPage() {
                       ? aluno.contatos[0].contato
                       : "-"}
                   </span>
-                  <span>{aluno.endereco.cidade ?? "-"}</span>
+                  <span>{aluno.endereco.municipio ?? "-"}</span>
                   <span>
                     {aluno.contatos[0].email ? aluno.contatos[0].email : "-"}
                   </span>
@@ -74,7 +74,7 @@ export default async function AlunosPage() {
                       <PencilIcon />
                     </Link>
 
-                    <ExcludeButton id={aluno.id} />
+                    <ExcludeButton id={aluno.id ?? ''} />
                   </div>
                 </div>
               ))}

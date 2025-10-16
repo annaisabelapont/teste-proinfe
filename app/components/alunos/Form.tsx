@@ -5,12 +5,13 @@ import { Aluno } from "@/app/lib/types";
 import FormSectionName from "../UI/FormSectionName";
 import Input from "./FormInput";
 import Select from "./FormSelect";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Save from "../icons/Save";
 import CancelIcon from "../icons/Cancel";
 import Link from "next/link";
+import { alunosService } from "@/app/lib/alunos-service";
 
 export default function Form({
   action,
@@ -19,14 +20,11 @@ export default function Form({
   action: string;
   aluno?: Aluno;
 }) {
-  if (action ==='edicao' && aluno) {
-    console.log("edicao");
-  }
   const schema = z.object({
     /* z.custom<...>((val) => ..., "custom error message") */
     cpf: z.string().nonempty("CPF é obrigatório!"),
     nome: z.string().nonempty("Nome é obrigatório!"),
-    nascimento: z.string().nonempty("Nascimento é obrigatório!"),
+    dataNascimento: z.string().nonempty("Nascimento é obrigatório!"),
     sexo: z.string().nonempty("Sexo é obrigatório!"),
     nacionalidade: z.string().nonempty("Nacionalidade é obrigatória!"),
     // endereco: {
@@ -34,7 +32,7 @@ export default function Form({
     logradouro: z.string().nonempty("Logradouro é obrigatório!"),
     numero: z.string(),
     bairro: z.string().nonempty("Bairro é obrigatório!"),
-    cidade: z.string().nonempty("Cidade é obrigatória!"),
+    municipio: z.string().nonempty("Cidade é obrigatória!"),
     estado: z.string().nonempty("Estado é obrigatório!"),
     // // },
     // // contatos: [
@@ -54,13 +52,87 @@ export default function Form({
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>({
-    defaultValues: {},
+    defaultValues: {
+      nome: aluno ? aluno.nome : "",
+      cpf: aluno ? aluno.cpf : "",
+      logradouro: aluno ? aluno.endereco.logradouro : "",
+      bairro: aluno ? aluno.endereco.bairro : "",
+      municipio: aluno ? aluno.endereco.municipio : "",
+      numero: aluno ? aluno.endereco.numero : "",
+      estado: aluno ? aluno.endereco.estado : "",
+      cep: aluno ? aluno.endereco.cep : "",
+      contato: aluno
+        ? aluno.contatos[0]
+          ? aluno.contatos[0].contato
+            ? aluno.contatos[0].contato[0]
+            : ""
+          : ""
+        : "",
+      email: aluno ? aluno.contatos[0].email[0] : "",
+      dataNascimento: aluno ? aluno.dataNascimento : "",
+      sexo: aluno ? aluno.sexo : "",
+      nacionalidade: aluno ? aluno.nacionalidade : "",
+    },
     resolver: zodResolver(schema),
   });
 
+  const cadastrar: SubmitHandler<FormFields> = async (data) => {
+    const alunoTranslated: Aluno = {
+      nome: data.nome,
+      cpf: data.cpf,
+      dataNascimento: data.dataNascimento,
+      sexo: data.sexo,
+      nacionalidade: data.nacionalidade,
+      endereco: {
+        cep: data.cep,
+        logradouro: data.logradouro,
+        numero: data.numero,
+        bairro: data.bairro,
+        municipio: data.municipio,
+        estado: data.estado,
+      },
+      contatos: [
+        {
+          contato: [data.contato],
+          email: [data.email],
+        },
+      ],
+    };
+    const cadastro = await alunosService.cadastrar(alunoTranslated);
+    console.log(cadastro);
+  };
+
+  const editar: SubmitHandler<FormFields> = async (data) => {
+    const alunoTranslated: Aluno = {
+      nome: data.nome,
+      cpf: data.cpf,
+      dataNascimento: data.dataNascimento,
+      sexo: data.sexo,
+      nacionalidade: data.nacionalidade,
+      endereco: {
+        cep: data.cep,
+        logradouro: data.logradouro,
+        numero: data.numero,
+        bairro: data.bairro,
+        municipio: data.municipio,
+        estado: data.estado,
+      },
+      contatos: [
+        {
+          contato: [data.contato],
+          email: [data.email],
+        },
+      ],
+    };
+    const cadastro = await alunosService.editar(alunoTranslated);
+    console.log(cadastro);
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <form
+        onSubmit={handleSubmit(action === "cadastrar" ? cadastrar : editar)}
+      >
         <FormSectionName title="Dados Pessoais" />
 
         <div className="grid grid-cols-4 gap-5 py-10">
@@ -82,11 +154,11 @@ export default function Form({
           />
 
           <Input
-            register={register("nascimento")}
+            register={register("dataNascimento")}
             placeholder="Ex: 05/11/1998"
             label="Data de nascimento *"
             type="date"
-            error={errors.nascimento}
+            error={errors.dataNascimento}
           />
 
           <Select
@@ -170,11 +242,11 @@ export default function Form({
             error={errors.numero}
           />
           <Input
-            register={register("cidade")}
+            register={register("municipio")}
             placeholder="Ex: Ji-Paraná"
             label="Município *"
             type="text"
-            error={errors.cidade}
+            error={errors.municipio}
           />
 
           <Select

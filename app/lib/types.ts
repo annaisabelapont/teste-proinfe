@@ -1,16 +1,16 @@
 export type Aluno = {
-  id: string | null;
+  id?: string | null;
   cpf: string;
   nome: string;
-  nascimento: string;
-  sexo: "masculino" | "feminino";
-  nacionalidade: "brasileira" | "brasileira-naturalizada" | "estrangeira";
+  dataNascimento: string;
+  sexo: string;
+  nacionalidade: string;
   endereco: {
     cep: string;
     logradouro: string;
-    numero: number;
+    numero: string;
     bairro: string;
-    cidade: string;
+    municipio: string;
     estado: string;
   };
   contatos: [{ contato: string[]; email: string[] }];
