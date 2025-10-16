@@ -57,7 +57,6 @@ export default function Form({
   const {
     register,
     handleSubmit,
-    getValues,
     setValue,
     formState: { errors },
   } = useForm<FormFields>({
@@ -153,7 +152,9 @@ export default function Form({
       try {
         const buscarCep = async () => {
           const res = await fetch(
-            `https://viacep.com.br/ws/${cep.replace("-", "").replace(' ', '')}/json`
+            `https://viacep.com.br/ws/${cep
+              .replace("-", "")
+              .replace(" ", "")}/json`
           );
 
           if (!res.ok) {
@@ -187,10 +188,14 @@ export default function Form({
     }
   }, [cep]);
 
+  const submit: SubmitHandler<FormFields> = (data) => {
+    action === "cadastrar" ? cadastrar(data) : editar(data);
+  };
+
   return (
     <div>
       <form
-        onSubmit={handleSubmit(action === "cadastrar" ? cadastrar : editar)}
+        onSubmit={handleSubmit(submit)}
       >
         <FormSectionName title="Dados Pessoais" />
 
