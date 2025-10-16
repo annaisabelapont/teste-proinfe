@@ -10,9 +10,9 @@ export const alunosService = {
     }
   },
 
-  async listar(): Promise<Aluno[] | null> {
+  async listar(): Promise<any | null> {
     try {
-      const res = await fetch("https://api-desafio.jetspace.dev/");
+      const res = await fetch("https://api-desafio.jetspace.dev/aluno");
 
       if (!res.ok) {
         throw new Error();

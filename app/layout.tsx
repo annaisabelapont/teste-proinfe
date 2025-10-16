@@ -35,7 +35,7 @@ export default function RootLayout({
 
         <Sidebar />
 
-        <main className="overflow-auto p-4 bg-light-grey">{children}</main>
+        <main className="overflow-auto p-7 bg-light-grey">{children}</main>
       </body>
     </html>
   );
