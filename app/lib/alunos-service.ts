@@ -1,4 +1,3 @@
-
 export const alunosService = {
   async cadastrar() {
     try {
@@ -12,7 +11,8 @@ export const alunosService = {
     }
   },
 
-  async listar(): Promise<any | null> { // eslint-disable-line @typescript-eslint/no-explicit-any
+  async listar(): Promise<any | null> {
+    // eslint-disable-line @typescript-eslint/no-explicit-any
     try {
       const res = await fetch("https://api-desafio.jetspace.dev/aluno");
 
@@ -23,9 +23,25 @@ export const alunosService = {
       const data = await res.json();
 
       return data;
-
     } catch (e) {
+      console.log(e);
+      return null;
+    }
+  },
 
+  async consultar(id: string): Promise<any | null> {
+    // eslint-disable-line @typescript-eslint/no-explicit-any
+    try {
+      const res = await fetch(`https://api-desafio.jetspace.dev/aluno/${id}`);
+
+      if (!res.ok) {
+        throw new Error();
+      }
+
+      const data = await res.json();
+
+      return data;
+    } catch (e) {
       console.log(e);
       return null;
     }
