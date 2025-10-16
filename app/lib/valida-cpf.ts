@@ -2,7 +2,7 @@ export function validaCPF(cpf: string) {
   let Soma = 0;
   let Resto;
 
-  let strCPF = String(cpf).replace(/[^\d]/g, "");
+  const strCPF = String(cpf).replace(/[^\d]/g, "");
 
   if (strCPF.length !== 11) return false;
 

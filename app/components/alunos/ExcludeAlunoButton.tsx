@@ -12,7 +12,6 @@ export default function ExcludeButton({ id }: { id: string | null }) {
         context.setShowModal({ open: true, id: id ?? "" });
       }}
     >
-      {/* <pre>{JSON.stringify(context)}</pre> */}
       <TrashIcon />
     </button>
   );

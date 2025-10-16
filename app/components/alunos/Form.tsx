@@ -31,7 +31,7 @@ export default function Form({
       sexo: z.string().nonempty("Sexo é obrigatório!"),
       nacionalidade: z.string().nonempty("Nacionalidade é obrigatória!"),
       // endereco: {
-      cep: z.string().nonempty("CEP é obrigatório!"),
+      // cep: z.string().nonempty("CEP é obrigatório!"),
       logradouro: z.string().nonempty("Logradouro é obrigatório!"),
       numero: z.string(),
       bairro: z.string().nonempty("Bairro é obrigatório!"),
@@ -69,7 +69,7 @@ export default function Form({
       municipio: aluno ? aluno.endereco.municipio : "",
       numero: aluno ? aluno.endereco.numero : "",
       estado: aluno ? aluno.endereco.estado : "",
-      cep: aluno ? aluno.endereco.cep : "",
+      // cep: aluno ? aluno.endereco.cep : "",
       contato: aluno
         ? aluno.contatos[0]
           ? aluno.contatos[0].contato
@@ -85,6 +85,10 @@ export default function Form({
     resolver: zodResolver(schema),
   });
 
+  useEffect(() => {
+    setCep(aluno ? aluno.endereco.cep : "");
+  }, []);
+
   const cadastrar: SubmitHandler<FormFields> = async (data) => {
     if (cepValido) {
       const alunoTranslated: Aluno = {
@@ -94,7 +98,7 @@ export default function Form({
         sexo: data.sexo,
         nacionalidade: data.nacionalidade,
         endereco: {
-          cep: data.cep,
+          cep: cep,
           logradouro: data.logradouro,
           numero: data.numero,
           bairro: data.bairro,
@@ -122,7 +126,7 @@ export default function Form({
         sexo: data.sexo,
         nacionalidade: data.nacionalidade,
         endereco: {
-          cep: data.cep,
+          cep: cep,
           logradouro: data.logradouro,
           numero: data.numero,
           bairro: data.bairro,
@@ -141,15 +145,15 @@ export default function Form({
     }
   };
 
+  const [cep, setCep] = useState("");
   const [cepValido, setCepValido] = useState(false);
 
   useEffect(() => {
-    console.log(getValues().cep);
-    if (getValues().cep.length > 2) {
+    if (cep.length > 1) {
       try {
         const buscarCep = async () => {
           const res = await fetch(
-            `https://viacep.com.br/ws/${getValues().cep}/json`
+            `https://viacep.com.br/ws/${cep.replace("-", "").replace(' ', '')}/json`
           );
 
           if (!res.ok) {
@@ -181,7 +185,7 @@ export default function Form({
         console.log(e);
       }
     }
-  }, [getValues().cep]);
+  }, [cep]);
 
   return (
     <div>
@@ -267,13 +271,21 @@ export default function Form({
 
         <FormSectionName title="Endereço" />
         <div className="grid grid-cols-4 gap-5 py-10">
-          <Input
+          <label>
+            CEP *
+            <input
+              type="text"
+              placeholder="Ex: 00000-000"
+              onChange={(e) => setCep(e.target.value)}
+            />
+          </label>
+          {/* <Input
             register={register("cep")}
             placeholder="Ex: 00000-000"
             label="CEP *"
             type="text"
             error={errors.cep}
-          />
+          /> */}
           <Input
             className="col-span-3"
             register={register("logradouro")}
