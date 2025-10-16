@@ -1,5 +1,6 @@
 "use server";
 
+import ExcludeButton from "@/app/components/alunos/ExcludeAlunoButton";
 import EyeIcon from "@/app/components/icons/Eye";
 import PencilIcon from "@/app/components/icons/Pencil";
 import SearchIcon from "@/app/components/icons/Search";
@@ -74,9 +75,7 @@ export default async function AlunosPage() {
                       <PencilIcon />
                     </Link>
 
-                    <button>
-                      <TrashIcon />
-                    </button>
+                    {/* <ExcludeButton id={aluno.id} /> */}
                   </div>
                 </div>
               ))}

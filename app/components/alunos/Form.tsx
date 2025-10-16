@@ -5,7 +5,7 @@ import { Aluno } from "@/app/lib/types";
 import FormSectionName from "../UI/FormSectionName";
 import Input from "./FormInput";
 import Select from "./FormSelect";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Save from "../icons/Save";
@@ -20,6 +20,7 @@ export default function Form({
   aluno?: Aluno;
 }) {
   const schema = z.object({
+    /* z.custom<...>((val) => ..., "custom error message") */
     cpf: z.string().nonempty("CPF é obrigatório!"),
     nome: z.string().nonempty("Nome é obrigatório!"),
     nascimento: z.string().nonempty("Nascimento é obrigatório!"),
@@ -28,7 +29,7 @@ export default function Form({
     // endereco: {
     cep: z.string().nonempty("CEP é obrigatório!"),
     logradouro: z.string().nonempty("Logradouro é obrigatório!"),
-    numero: z.number().min(0),
+    numero: z.string(),
     bairro: z.string().nonempty("Bairro é obrigatório!"),
     cidade: z.string().nonempty("Cidade é obrigatória!"),
     estado: z.string().nonempty("Estado é obrigatório!"),
@@ -203,13 +204,9 @@ export default function Form({
           />
         </div>
 
-        <br />
-        <br />
-        <br />
-
         <div className="flex gap-5 justify-end">
           <Link
-          href="./"
+            href="./"
             className="flex p-2.5 border-2 border-blue gap-2 text-blue rounded-md shadow-lg bg-white"
           >
             <CancelIcon />

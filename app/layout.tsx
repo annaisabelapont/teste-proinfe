@@ -1,10 +1,12 @@
-import "./layout.css";
+import "layout.css";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
+import ExcludeModalContext from "./components/alunos/ExcludeModalContext";
+import ExcludeAlunoModal from "./components/alunos/ExcludeAlunoModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,11 +33,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased grid-layout h-screen`}
       >
-        <Header />
+        <ExcludeModalContext>
+          <ExcludeAlunoModal />
 
-        <Sidebar />
+          <Header />
 
-        <main className="overflow-auto p-7 bg-light-grey">{children}</main>
+          <Sidebar />
+
+          <main className="overflow-auto p-7 bg-light-grey">{children}</main>
+        </ExcludeModalContext>
       </body>
     </html>
   );
