@@ -29,7 +29,7 @@ export default async function AlunosPage() {
         </Link>
       </div>
 
-      <div className="pt-15 flex flex-col gap-10">
+      <div className="pt-15 flex flex-col gap-5">
         <div className="flex justify-between items-center pr-5 bg-white rounded-md border-1 border-gray-200">
           <input
             className="p-2 pl-5 flex-1 focus:outline-none"
@@ -40,26 +40,30 @@ export default async function AlunosPage() {
           <SearchIcon />
         </div>
 
-        <div className="flex flex-col border-2 border-gray-200 rounded-t-lg ">
-          <div className="grid grid-cols-6">
+        <div className="flex flex-col border-2 border-gray-200 rounded-t-lg bg-white">
+          <div className="grid grid-cols-[repeat(5,1fr)_5.375rem] p-4 px-14 w-full border-b-2 border-gray-200">
             <span>Nome</span>
             <span>CPF</span>
             <span>Contato</span>
             <span>Cidade</span>
+            <span>E-mail</span>
             <span>Ações</span>
           </div>
 
           {listagemAlunos !== null && (
             <>
               {listagemAlunos.data.map((aluno: Aluno, index: number) => (
-                <div key={index} className="grid grid-cols-6">
-                  <span>{aluno.nome}</span>
-                  <span>{aluno.cpf}</span>
-                  <span>{aluno.contato ? aluno.contato[0] : ''}</span>
-                  <span>{aluno.cidade}</span>
-                  <span>{aluno.email}</span>
+                <div
+                  key={index}
+                  className="grid grid-cols-[repeat(5,1fr)_5.375rem] p-4 px-14 w-full not-last:border-b-2 border-gray-200"
+                >
+                  <span>{aluno.nome ?? "-"}</span>
+                  <span>{aluno.cpf ?? "-"}</span>
+                  <span>{aluno.contato ? aluno.contato[0] : "-"}</span>
+                  <span>{aluno.cidade ?? "-"}</span>
+                  <span>{aluno.email ? aluno.email : "-"}</span>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 w-21.5">
                     <Link href={`/alunos/consultar/${aluno.id}`}>
                       <EyeIcon />
                     </Link>
