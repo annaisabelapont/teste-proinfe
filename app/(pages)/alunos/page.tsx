@@ -4,6 +4,7 @@ import EyeIcon from "@/app/components/icons/Eye";
 import PencilIcon from "@/app/components/icons/Pencil";
 import SearchIcon from "@/app/components/icons/Search";
 import TrashIcon from "@/app/components/icons/Trash";
+import PageHeader from "@/app/components/UI/PageHeader";
 import { alunosService } from "@/app/lib/alunos-service";
 import { Aluno } from "@/app/lib/types";
 import Link from "next/link";
@@ -13,21 +14,17 @@ export default async function AlunosPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between border-b-2 border-gray-200 pb-7">
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-semibold">Consultar Alunos</h1>
-          <span className="opacity-60 mt-1">
-            Acompanhe ou edite as informações
-          </span>
-        </div>
-
+      <PageHeader
+        title={"Consultar Alunos"}
+        description={"Acompanhe ou edite as informações"}
+      >
         <Link
           href="/alunos/cadastrar"
           className="bg-white shadow-lg rounded-md px-4 py-3 flex items-center justify-center h-max"
         >
           Novo +
         </Link>
-      </div>
+      </PageHeader>
 
       <div className="pt-15 flex flex-col gap-5">
         <div className="flex justify-between items-center pr-5 bg-white rounded-md border-1 border-gray-200">

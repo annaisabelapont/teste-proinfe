@@ -6,6 +6,10 @@
   --color-black: #484946;
 }
 
+button {
+  cursor: pointer;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   color: var(--color-black);
