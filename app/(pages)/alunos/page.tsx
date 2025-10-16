@@ -56,9 +56,15 @@ export default async function AlunosPage() {
                 >
                   <span>{aluno.nome ?? "-"}</span>
                   <span>{aluno.cpf ?? "-"}</span>
-                  <span>{aluno.contato ? aluno.contato[0] : "-"}</span>
-                  <span>{aluno.cidade ?? "-"}</span>
-                  <span>{aluno.email ? aluno.email : "-"}</span>
+                  <span>
+                    {aluno.contatos[0].contato
+                      ? aluno.contatos[0].contato
+                      : "-"}
+                  </span>
+                  <span>{aluno.endereco.cidade ?? "-"}</span>
+                  <span>
+                    {aluno.contatos[0].email ? aluno.contatos[0].email : "-"}
+                  </span>
 
                   <div className="flex gap-2 w-21.5">
                     <Link href={`/alunos/consultar/${aluno.id}`}>

@@ -1,3 +1,4 @@
+import Form from "@/app/components/alunos/Form";
 import PageHeader from "@/app/components/UI/PageHeader";
 
 export default function CadastrarPage() {
@@ -7,6 +8,8 @@ export default function CadastrarPage() {
         title={"Cadastrar aluno"}
         description={"Aluno"}
       />
+
+      <Form action="cadastrar" />
     </>
   );
 }
