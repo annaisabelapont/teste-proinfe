@@ -1,7 +1,6 @@
 import {
   FieldError,
   Merge,
-  UseFormRegister,
   UseFormRegisterReturn,
 } from "react-hook-form";
 import "./form.css";
@@ -21,7 +20,7 @@ export default function Input({
     | (Merge<FieldError, (FieldError | undefined)[]> | undefined)
     | (FieldError | undefined);
   className?: string;
-  register: UseFormRegisterReturn<any>;
+  register: UseFormRegisterReturn<string>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }) {
   return (
     <>

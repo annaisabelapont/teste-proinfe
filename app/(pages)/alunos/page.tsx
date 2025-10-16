@@ -4,7 +4,6 @@ import ExcludeButton from "@/app/components/alunos/ExcludeAlunoButton";
 import EyeIcon from "@/app/components/icons/Eye";
 import PencilIcon from "@/app/components/icons/Pencil";
 import SearchIcon from "@/app/components/icons/Search";
-import TrashIcon from "@/app/components/icons/Trash";
 import PageHeader from "@/app/components/UI/PageHeader";
 import { alunosService } from "@/app/lib/alunos-service";
 import { Aluno } from "@/app/lib/types";
@@ -75,7 +74,7 @@ export default async function AlunosPage() {
                       <PencilIcon />
                     </Link>
 
-                    {/* <ExcludeButton id={aluno.id} /> */}
+                    <ExcludeButton id={aluno.id} />
                   </div>
                 </div>
               ))}

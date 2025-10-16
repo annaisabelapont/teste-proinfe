@@ -19,6 +19,9 @@ export default function Form({
   action: string;
   aluno?: Aluno;
 }) {
+  if (action ==='edicao' && aluno) {
+    console.log("edicao");
+  }
   const schema = z.object({
     /* z.custom<...>((val) => ..., "custom error message") */
     cpf: z.string().nonempty("CPF é obrigatório!"),

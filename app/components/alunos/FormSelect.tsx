@@ -11,9 +11,9 @@ export default function Select({
 }: {
   label: string;
   placeholder: string;
-  options: { name: string; value: any }[];
+  options: { name: string; value: any }[]; // eslint-disable-line @typescript-eslint/no-explicit-any
   error: FieldError | undefined;
-  register: UseFormRegisterReturn<any>;
+  register: UseFormRegisterReturn<string>; // eslint-disable-line @typescript-eslint/no-explicit-any
   className?: string;
 }) {
   return (
