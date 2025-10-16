@@ -19,21 +19,21 @@ export default function Form({
   const schema = z.object({
     cpf: z.string().nonempty("CPF é obrigatório!"),
     nome: z.string().nonempty("Nome é obrigatório!"),
-    nascimento: z.date(),
+    nascimento: z.string().nonempty("Nascimento é obrigatório!"),
     sexo: z.string().nonempty("Sexo é obrigatório!"),
     nacionalidade: z.string().nonempty("Nacionalidade é obrigatória!"),
     // endereco: {
-    cep: z.string().nonempty("CEP é obrigatório!"),
-    logradouro: z.string().nonempty("Logradouro é obrigatório!"),
-    numero: z.number().min(0),
-    bairro: z.string().nonempty("Bairro é obrigatório!"),
-    cidade: z.string().nonempty("Cidade é obrigatória!"),
-    estado: z.string().nonempty("Estado é obrigatório!"),
-    // },
-    // contatos: [
-    //   {
-    contato: z.array(z.string()),
-    email: z.array(z.string()),
+    // cep: z.string().nonempty("CEP é obrigatório!"),
+    // logradouro: z.string().nonempty("Logradouro é obrigatório!"),
+    // numero: z.number().min(0),
+    // bairro: z.string().nonempty("Bairro é obrigatório!"),
+    // cidade: z.string().nonempty("Cidade é obrigatória!"),
+    // estado: z.string().nonempty("Estado é obrigatório!"),
+    // // },
+    // // contatos: [
+    // //   {
+    // contato: z.array(z.string()),
+    // email: z.array(z.string()),
     //   },
     // ],
   });
@@ -62,43 +62,52 @@ export default function Form({
             type="text"
             error={errors.cpf}
           />
-          {/* <Input
+
+          <Input
+            register={register("nome")}
             className="col-span-3"
             placeholder="Ex: João da Silva"
             label="Nome completo *"
             type="text"
-            error={null}
+            error={errors.nome}
           />
+
           <Input
+            register={register("nascimento")}
             placeholder="Ex: 05/11/1998"
             label="Data de nascimento *"
             type="date"
-            error={null}
-          /> */}
+            error={errors.nascimento}
+          />
 
-          {/* <Select
+          <Select
             placeholder="Selecione"
             label="Sexo *"
             options={[
               { name: "Masculino", value: "Masculino" },
               { name: "Feminino", value: "Feminino" },
             ]}
-            error={null}
+            register={register("sexo")}
+            error={errors.sexo}
           />
 
           <fieldset>
             Nacionalidade
             <div className="flex gap-4">
               <label>
-                <input type="radio" name="nacionalidade" value={"Brasileira"} />
+                <input
+                  type="radio"
+                  {...register("nacionalidade")}
+                  value={"Brasileira"}
+                />
                 Brasileira
               </label>
 
               <label>
                 <input
                   type="radio"
-                  name="nacionalidade"
                   value={"Naturalizada"}
+                  {...register("nacionalidade")}
                 />
                 Naturalizada
               </label>
@@ -106,14 +115,22 @@ export default function Form({
               <label>
                 <input
                   type="radio"
-                  name="nacionalidade"
+                  {...register("nacionalidade")}
                   value={"Estrangeira"}
                 />
                 Estrangeira
               </label>
             </div>
-          </fieldset> */}
+            {errors.nacionalidade && (
+              <span className="text-red-500 text-sm font-normal mt-1">
+                {errors.nacionalidade.message}
+              </span>
+            )}
+          </fieldset>
 
+          <br />
+          <br />
+          <br />
           <button type="submit">submeter bora galera borab rbao</button>
         </div>
 

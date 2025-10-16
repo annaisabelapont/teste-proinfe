@@ -1,3 +1,4 @@
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import "./form.css";
 
 export default function Select({
@@ -5,18 +6,28 @@ export default function Select({
   placeholder,
   error,
   options,
+  register,
+  className,
 }: {
   label: string;
   placeholder: string;
-  error: any;
   options: { name: string; value: any }[];
+  error: FieldError | undefined;
+  register: UseFormRegisterReturn<any>;
+  className?: string;
 }) {
   return (
     <>
       <label>
         {label}
-        <select defaultValue={''} className={error ? "border-red-500" : "border-gray-200 "}>
-          <option value="" disabled selected>
+        <select
+          {...register}
+          defaultValue={""}
+          className={`${className} ${
+            error ? "border-red-500" : "border-gray-200"
+          }`}
+        >
+          <option value="" disabled>
             {placeholder}
           </option>
 
@@ -26,9 +37,8 @@ export default function Select({
             </option>
           ))}
         </select>
+        {error && <span className="text-red-500 text-sm">{error.message}</span>}
       </label>
-
-      {error && <span className="text-red-500 text-sm">{error.message}</span>}
     </>
   );
 }
