@@ -12,6 +12,8 @@ import Save from "../icons/Save";
 import CancelIcon from "../icons/Cancel";
 import Link from "next/link";
 import { alunosService } from "@/app/lib/alunos-service";
+import { useEffect, useState } from "react";
+import { validaCPF } from "@/app/lib/valida-cpf";
 
 export default function Form({
   action,
@@ -20,36 +22,43 @@ export default function Form({
   action: string;
   aluno?: Aluno;
 }) {
-  const schema = z.object({
-    /* z.custom<...>((val) => ..., "custom error message") */
-    cpf: z.string().nonempty("CPF é obrigatório!"),
-    nome: z.string().nonempty("Nome é obrigatório!"),
-    dataNascimento: z.string().nonempty("Nascimento é obrigatório!"),
-    sexo: z.string().nonempty("Sexo é obrigatório!"),
-    nacionalidade: z.string().nonempty("Nacionalidade é obrigatória!"),
-    // endereco: {
-    cep: z.string().nonempty("CEP é obrigatório!"),
-    logradouro: z.string().nonempty("Logradouro é obrigatório!"),
-    numero: z.string(),
-    bairro: z.string().nonempty("Bairro é obrigatório!"),
-    municipio: z.string().nonempty("Cidade é obrigatória!"),
-    estado: z.string().nonempty("Estado é obrigatório!"),
-    // // },
-    // // contatos: [
-    // //   {
-    contato: z.string(),
-    email: z.email(),
-    // contato: z.array(z.string()),
-    // email: z.array(z.email()),
-    //   },
-    // ],
-  });
+  const schema = z
+    .object({
+      /* z.custom<...>((val) => ..., "custom error message") */
+      cpf: z.string().nonempty("CPF é obrigatório!"),
+      nome: z.string().nonempty("Nome é obrigatório!"),
+      dataNascimento: z.string().nonempty("Nascimento é obrigatório!"),
+      sexo: z.string().nonempty("Sexo é obrigatório!"),
+      nacionalidade: z.string().nonempty("Nacionalidade é obrigatória!"),
+      // endereco: {
+      cep: z.string().nonempty("CEP é obrigatório!"),
+      logradouro: z.string().nonempty("Logradouro é obrigatório!"),
+      numero: z.string(),
+      bairro: z.string().nonempty("Bairro é obrigatório!"),
+      municipio: z.string().nonempty("Cidade é obrigatória!"),
+      estado: z.string().nonempty("Estado é obrigatório!"),
+      // // },
+      // // contatos: [
+      // //   {
+      contato: z.string(),
+      email: z.email(),
+      // contato: z.array(z.string()),
+      // email: z.array(z.email()),
+      //   },
+      // ],
+    })
+    .refine((data) => validaCPF(data.cpf), {
+      message: "O CPF deve ser válido!",
+    })
+    .refine(() => cepValido, { message: "CEP deve ser válido!" });
 
   type FormFields = z.infer<typeof schema>;
 
   const {
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<FormFields>({
     defaultValues: {
@@ -77,56 +86,102 @@ export default function Form({
   });
 
   const cadastrar: SubmitHandler<FormFields> = async (data) => {
-    const alunoTranslated: Aluno = {
-      nome: data.nome,
-      cpf: data.cpf,
-      dataNascimento: data.dataNascimento,
-      sexo: data.sexo,
-      nacionalidade: data.nacionalidade,
-      endereco: {
-        cep: data.cep,
-        logradouro: data.logradouro,
-        numero: data.numero,
-        bairro: data.bairro,
-        municipio: data.municipio,
-        estado: data.estado,
-      },
-      contatos: [
-        {
-          contato: [data.contato],
-          email: [data.email],
+    if (cepValido) {
+      const alunoTranslated: Aluno = {
+        nome: data.nome,
+        cpf: data.cpf,
+        dataNascimento: data.dataNascimento,
+        sexo: data.sexo,
+        nacionalidade: data.nacionalidade,
+        endereco: {
+          cep: data.cep,
+          logradouro: data.logradouro,
+          numero: data.numero,
+          bairro: data.bairro,
+          municipio: data.municipio,
+          estado: data.estado,
         },
-      ],
-    };
-    const cadastro = await alunosService.cadastrar(alunoTranslated);
-    console.log(cadastro);
+        contatos: [
+          {
+            contato: [data.contato],
+            email: [data.email],
+          },
+        ],
+      };
+      const cadastro = await alunosService.cadastrar(alunoTranslated);
+      console.log(cadastro);
+    }
   };
 
   const editar: SubmitHandler<FormFields> = async (data) => {
-    const alunoTranslated: Aluno = {
-      nome: data.nome,
-      cpf: data.cpf,
-      dataNascimento: data.dataNascimento,
-      sexo: data.sexo,
-      nacionalidade: data.nacionalidade,
-      endereco: {
-        cep: data.cep,
-        logradouro: data.logradouro,
-        numero: data.numero,
-        bairro: data.bairro,
-        municipio: data.municipio,
-        estado: data.estado,
-      },
-      contatos: [
-        {
-          contato: [data.contato],
-          email: [data.email],
+    if (cepValido) {
+      const alunoTranslated: Aluno = {
+        nome: data.nome,
+        cpf: data.cpf,
+        dataNascimento: data.dataNascimento,
+        sexo: data.sexo,
+        nacionalidade: data.nacionalidade,
+        endereco: {
+          cep: data.cep,
+          logradouro: data.logradouro,
+          numero: data.numero,
+          bairro: data.bairro,
+          municipio: data.municipio,
+          estado: data.estado,
         },
-      ],
-    };
-    const cadastro = await alunosService.editar(alunoTranslated);
-    console.log(cadastro);
+        contatos: [
+          {
+            contato: [data.contato],
+            email: [data.email],
+          },
+        ],
+      };
+      const cadastro = await alunosService.editar(alunoTranslated);
+      console.log(cadastro);
+    }
   };
+
+  const [cepValido, setCepValido] = useState(false);
+
+  useEffect(() => {
+    console.log(getValues().cep);
+    if (getValues().cep.length > 2) {
+      try {
+        const buscarCep = async () => {
+          const res = await fetch(
+            `https://viacep.com.br/ws/${getValues().cep}/json`
+          );
+
+          if (!res.ok) {
+            throw new Error();
+          }
+
+          const data = await res.json();
+          console.log(data);
+
+          if (!data.erro) {
+            setValue("estado", data.uf);
+            setValue("municipio", data.localidade);
+            setValue("logradouro", data.logradouro);
+            setValue("estado", data.estado);
+            setValue("bairro", data.bairro);
+
+            setCepValido(true);
+          } else {
+            setCepValido(false);
+          }
+        };
+
+        try {
+          buscarCep();
+        } catch (e) {
+          console.log(e);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, [getValues().cep]);
 
   return (
     <div>
@@ -252,7 +307,12 @@ export default function Form({
           <Select
             placeholder="Selecione"
             label="UF *"
-            options={[{ name: "Masculino", value: "Masculino" }]}
+            options={[
+              { name: "SP", value: "SP" },
+              { name: "RO", value: "RO" },
+              { name: "RS", value: "RS" },
+              { name: "RN", value: "RN" },
+            ]}
             register={register("estado")}
             error={errors.estado}
           />
