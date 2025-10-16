@@ -13,7 +13,7 @@ export default function Select({
   placeholder: string;
   options: { name: string; value: any }[]; // eslint-disable-line @typescript-eslint/no-explicit-any
   error: FieldError | undefined;
-  register: UseFormRegisterReturn<string>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  register: UseFormRegisterReturn<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   className?: string;
 }) {
   return (

@@ -20,7 +20,7 @@ export default function Input({
     | (Merge<FieldError, (FieldError | undefined)[]> | undefined)
     | (FieldError | undefined);
   className?: string;
-  register: UseFormRegisterReturn<string>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  register: UseFormRegisterReturn<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }) {
   return (
     <>

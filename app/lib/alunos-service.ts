@@ -11,8 +11,7 @@ export const alunosService = {
     }
   },
 
-  async listar(): Promise<any | null> {
-    // eslint-disable-line @typescript-eslint/no-explicit-any
+  async listar(): Promise<any | null> { // eslint-disable-line @typescript-eslint/no-explicit-any
     try {
       const res = await fetch("https://api-desafio.jetspace.dev/aluno");
 
@@ -29,8 +28,7 @@ export const alunosService = {
     }
   },
 
-  async consultar(id: string): Promise<any | null> {
-    // eslint-disable-line @typescript-eslint/no-explicit-any
+  async consultar(id: string): Promise<any | null> { // eslint-disable-line @typescript-eslint/no-explicit-any
     try {
       const res = await fetch(`https://api-desafio.jetspace.dev/aluno/${id}`);
 
